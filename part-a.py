@@ -1,11 +1,8 @@
-from flask import Flask
 import requests
 import mysql.connector
 import json
 
-app = Flask(__name__)
-
-# Create Dummy Api app_id 
+# Created Dummy Api app_id 
 app_id = "65f2d1ecd01b0a7c789abafa"
 
 # Connect to PhpMySQL Database
@@ -29,7 +26,7 @@ def fetch_data_from_api():
         return None
 
 
-#Fuction to store data to the phpMySQL from API
+#Fuction to store data to the phpMySQL database from API
 def store_data_to_mysql(data):
     try:
         cursor = connection.cursor()
@@ -49,7 +46,7 @@ def store_data_to_mysql(data):
         # Insert data into MySQL
         for item in data:
             query = "INSERT INTO users (id, title, firstName, lastName, picture)  VALUES (%s ,%s, %s, %s, %s)"
-            values = (item['id'], item['title'], item['firstName'], item['lastName'], item['picture'])  # Replace with your actual data and column names
+            values = (item['id'], item['title'], item['firstName'], item['lastName'], item['picture'])  
             cursor.execute(query, values)
 
         # Commit the transaction
@@ -69,7 +66,7 @@ def store_data_to_mysql(data):
 # Function to fetch posts data from the API
 def fetch_posts_data_from_api(user_id):
     url = f'https://dummyapi.io/data/v1/user/{user_id}/post'
-    headers = {'app-id': app_id}  # Replace 'your_dummyapi_app_id' with your actual app ID
+    headers = {'app-id': app_id}  
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.json()['data']
