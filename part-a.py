@@ -26,13 +26,13 @@ def fetch_data_from_api():
         return None
 
 
-#Fuction to store data to the phpMySQL database from API
+#Fuction to store users data to the phpMySQL database from API
 def store_data_to_mysql(data):
     try:
         cursor = connection.cursor()
 
-        # Define table schema
-        create_table_query = """
+        # Define table schema users
+        create_table_users = """
         CREATE TABLE IF NOT EXISTS users (
             id VARCHAR(50) PRIMARY KEY,
             title VARCHAR(10),
@@ -41,9 +41,9 @@ def store_data_to_mysql(data):
             picture TEXT
         )
         """
-        cursor.execute(create_table_query)
+        cursor.execute(create_table_users)
 
-        # Insert data into MySQL
+        # Insert data into Users table
         for item in data:
             query = "INSERT INTO users (id, title, firstName, lastName, picture)  VALUES (%s ,%s, %s, %s, %s)"
             values = (item['id'], item['title'], item['firstName'], item['lastName'], item['picture'])  
@@ -106,7 +106,7 @@ def store_posts_data_to_database(posts_data):
         """
         cursor.execute(create_posts_table_query)
 
-        # Insert owner data into owners table
+        # Insert post owner data into owners table
         for post in posts_data:
             owner = post['owner']
             insert_owner_query = """
